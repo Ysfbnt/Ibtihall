@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Universe - Ibtihal ✨</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --gold-primary: #f3d078;
+            --gold-secondary: #c59b27;
+            --deep-midnight: #080c17;
+            --weeknd-purple: #231238;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--deep-midnight);
+            color: #e2e8f0;
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        .font-serif-title {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .font-handwriting {
+            font-family: 'Sacramento', cursive;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold-secondary);
+        }
+
+        /* Gold Foil Effect */
+        .gold-text {
+            background: linear-gradient(135deg, #fff2a3 0%, #f3d078 50%, #c59b27 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-border {
+            border-image: linear-gradient(to bottom right, #f3d078, #8a6616) 1;
+        }
+
+        /* Glassmorphic Container */
+        .glass-card {
+            background: rgba(12, 18, 34, 0.75);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(243, 208, 120, 0.3);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(243, 208, 120, 0.05);
+        }
+
+        /* Vinyl Record Animations */
+        @keyframes vinylSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .animate-vinyl {
+            animation: vinylSpin 6s linear infinite;
+        }
+
+        .animate-vinyl-paused {
+            animation-play-state: paused;
+        }
+
+        /* Photo Frame Tape and Corners */
+        .photo-tape {
+            position: absolute;
+            width: 75px;
+            height: 26px;
+            background: rgba(243, 208, 120, 0.38);
+            backdrop-filter: blur(3px);
+            border: 1px dashed rgba(255, 255, 255, 0.5);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+
+        .photo-tape-top-left {
+            top: -12px;
+            left: -22px;
+            transform: rotate(-18deg);
+        }
+
+        .photo-tape-top-right {
+            top: -12px;
+            right: -22px;
+            transform: rotate(15deg);
+        }
+
+        .photo-tape-bottom-right {
+            bottom: -12px;
+            right: -22px;
+            transform: rotate(-12deg);
+        }
+
+        /* Pulsing Star Glows */
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.5; filter: drop-shadow(0 0 10px rgba(243, 208, 120, 0.5)); }
+            50% { opacity: 1; filter: drop-shadow(0 0 22px rgba(243, 208, 120, 0.9)); }
+        }
+
+        .star-glow {
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+
+        /* Page Transitions */
+        .page-content {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Audio Visualizer Bars */
+        .bar {
+            width: 3px;
+            height: 12px;
+            background: #f3d078;
+            border-radius: 2px;
+            animation: bounce 0.8s ease-in-out infinite alternate;
+        }
+        .bar:nth-child(2) { animation-delay: 0.2s; }
+        .bar:nth-child(3) { animation-delay: 0.4s; }
+        .bar:nth-child(4) { animation-delay: 0.1s; }
+
+        @keyframes bounce {
+            0% { height: 4px; }
+            100% { height: 18px; }
+        }
+
+        /* Scratch-off Canvas */
+        #scratchCanvas {
+            cursor: pointer;
+            touch-action: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between relative selection:bg-amber-500/30">
+
+    <!-- Background Particles & Celestial Canvas -->
+    <canvas id="starfieldCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+    
+    <!-- Cursor Stardust Canvas -->
+    <canvas id="cursorCanvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
+
+    <!-- Header Navigation Bar -->
+    <header class="relative z-30 px-6 py-4 flex justify-between items-center border-b border-amber-500/20 bg-slate-950/85 backdrop-blur-md">
+        <div class="flex items-center space-x-3">
+            <i class="fa-solid fa-sparkles text-amber-400 text-xl animate-spin" style="animation-duration: 8s;"></i>
+            <div>
+                <h1 class="font-serif-title text-xl md:text-2xl font-bold tracking-wider gold-text">Ibtihal's Universe</h1>
+                <p class="text-[10px] text-amber-200/60 uppercase tracking-widest font-mono">Dedicated to my love</p>
+            </div>
+        </div>
+
+        <!-- The Weeknd Vinyl & Music Player Controller -->
+        <div class="flex items-center space-x-3 md:space-x-4">
+            <div id="vinylPlayer" class="hidden sm:flex items-center space-x-3 bg-slate-900/80 px-3 py-1.5 rounded-full border border-amber-500/30">
+                <div id="vinylDisc" class="w-7 h-7 rounded-full bg-slate-950 border border-amber-400/60 flex items-center justify-center animate-vinyl animate-vinyl-paused shadow-md">
+                    <div class="w-2.5 h-2.5 rounded-full bg-amber-500 border border-slate-900"></div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-[11px] font-semibold text-amber-200 leading-none">Stargirl Interlude</span>
+                    <span class="text-[9px] text-slate-400 leading-tight">The Weeknd • Cosmic R&B Vibes</span>
+                </div>
+                <div id="visualizerBars" class="hidden items-end space-x-0.5 h-5 px-1">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+            </div>
+
+            <button id="bgMusicBtn" onclick="toggleAudio()" class="px-3.5 py-1.5 rounded-full border border-amber-500/40 bg-gradient-to-r from-amber-500/20 to-amber-700/20 hover:bg-amber-500/30 transition-all text-xs md:text-sm flex items-center space-x-2 text-amber-300 shadow-md">
+                <i id="musicIcon" class="fa-solid fa-play"></i>
+                <span id="musicText">Play Stargirl</span>
+            </button>
+
+            <button onclick="toggleCustomizeModal()" class="px-3 py-1.5 rounded-full border border-amber-500/30 bg-slate-900/60 hover:bg-amber-500/20 transition-all text-xs md:text-sm flex items-center space-x-2 text-amber-300">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span class="hidden md:inline">Edit Notes</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hidden YouTube iFrame Player for Stargirl Interlude -->
+    <div class="hidden">
+        <iframe id="stargirlAudioPlayer" width="1" height="1" src="https://www.youtube-nocookie.com/embed/34Na4j8AVgA?enablejsapi=1&loop=1&playlist=34Na4j8AVgA" title="Stargirl Interlude Audio" frameborder="0" allow="autoplay"></iframe>
+    </div>
+
+    <!-- Main Interactive Scrapbook Container -->
+    <main class="relative z-10 flex-grow flex items-center justify-center p-3 md:p-8 max-w-7xl mx-auto w-full">
+        
+        <div class="w-full h-full flex flex-col items-center">
+            
+            <!-- Book Flip Frame -->
+            <div class="w-full max-w-5xl min-h-[630px] md:min-h-[690px] glass-card rounded-2xl p-4 md:p-8 relative flex flex-col justify-between overflow-hidden shadow-2xl border border-amber-500/30">
+                
+                <!-- Celestial Corner Ornaments -->
+                <div class="absolute top-3 left-3 text-amber-500/30 text-2xl pointer-events-none"><i class="fa-solid fa-moon"></i></div>
+                <div class="absolute top-3 right-3 text-amber-500/30 text-2xl pointer-events-none"><i class="fa-solid fa-sun"></i></div>
+                <div class="absolute bottom-3 left-3 text-amber-500/30 text-2xl pointer-events-none"><i class="fa-solid fa-compass"></i></div>
+                <div class="absolute bottom-3 right-3 text-amber-500/30 text-2xl pointer-events-none"><i class="fa-solid fa-star"></i></div>
+
+                <!-- Page Progress Indicator Header -->
+                <div class="flex justify-between items-center mb-4 pb-2 border-b border-amber-500/15">
+                    <span id="pageChapterTag" class="text-xs uppercase tracking-widest text-amber-400/80 font-semibold">Chapter I</span>
+                    <div class="flex space-x-1.5" id="pageIndicators">
+                        <!-- Dynamic page indicators generated via JS -->
+                    </div>
+                    <span id="pageNumberTag" class="text-xs font-mono text-slate-400">Page 1 / 4</span>
+                </div>
+
+                <!-- Dynamic Scrapbook Page Content Viewport -->
+                <div id="pageViewport" class="flex-grow flex flex-col justify-center relative my-2">
+                    
+                    <!-- PAGE 1: USER PHOTOS & IBTIHAL DEDICATION -->
+                    <div id="page-0" class="page-content space-y-6 animate-fadeIn">
+                        <div class="text-center space-y-2">
+                            <h2 class="font-serif-title text-3xl md:text-5xl font-bold gold-text">For My Sweetest Ibtihal ❤️</h2>
+                            <p class="text-slate-300 text-sm md:text-base italic font-serif">"You are my star, my night, and my entire universe."</p>
+                        </div>
+
+                        <!-- Embedded User Photos Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+                            <!-- Photo Card 1 (image.png) -->
+                            <div class="group relative bg-slate-900/90 p-3 rounded-xl border border-amber-500/20 shadow-xl transform transition-all duration-300 hover:-translate-y-2 hover:rotate-1 hover:border-amber-400/50">
+                                <div class="photo-tape photo-tape-top-left"></div>
+                                <div class="relative aspect-[4/3] rounded-lg overflow-hidden bg-slate-950 border border-slate-800">
+                                    <img id="imgFrame1" src="IMG_3008.jpg" alt="Ibtihal & You Playful Moment" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=800&q=80'">
+                                    <label class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer text-amber-300 text-xs font-semibold">
+                                        <i class="fa-solid fa-camera text-xl mb-1"></i>
+                                        <span>Replace Photo</span>
+                                        <input type="file" accept="image/*" class="hidden" onchange="uploadImage(event, 'imgFrame1')">
+                                    </label>
+                                </div>
+                                <div class="mt-3 text-center">
+                                    <p id="caption1" class="font-handwriting text-2xl text-amber-200">Where Our World Lights Up</p>
+                                    <p id="date1" class="text-[10px] text-slate-400 font-mono uppercase tracking-wider mt-1">Our Favorite Playful Moment</p>
+                                </div>
+                            </div>
+
+                            <!-- Photo Card 2 (image_2.png) -->
+                            <div class="group relative bg-slate-900/90 p-3 rounded-xl border border-amber-500/20 shadow-xl transform transition-all duration-300 hover:-translate-y-2 hover:-rotate-1 hover:border-amber-400/50">
+                                <div class="photo-tape photo-tape-top-right"></div>
+                                <div class="relative aspect-[4/3] rounded-lg overflow-hidden bg-slate-950 border border-slate-800">
+                                    <img id="imgFrame2" src="3f70cc26-0ce9-4e85-a72d-8cb9f1e9f638_925F1D75-37CA-4B3F-881F-FC382527AB29.JPG" alt="Ibtihal & You Together" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=800&q=80'">
+                                    <label class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer text-amber-300 text-xs font-semibold">
+                                        <i class="fa-solid fa-camera text-xl mb-1"></i>
+                                        <span>Replace Photo</span>
+                                        <input type="file" accept="image/*" class="hidden" onchange="uploadImage(event, 'imgFrame2')">
+                                    </label>
+                                </div>
+                                <div class="mt-3 text-center">
+                                    <p id="caption2" class="font-handwriting text-2xl text-amber-200">My Favorite Person Ever</p>
+                                    <p id="date2" class="text-[10px] text-slate-400 font-mono uppercase tracking-wider mt-1">Side By Side Always</p>
+                                </div>
+                            </div>
+
+                            <!-- Photo Card 3 (image_3.png) -->
+                            <div class="group relative bg-slate-900/90 p-3 rounded-xl border border-amber-500/20 shadow-xl transform transition-all duration-300 hover:-translate-y-2 hover:rotate-2 hover:border-amber-400/50">
+                                <div class="photo-tape photo-tape-bottom-right"></div>
+                                <div class="relative aspect-[4/3] rounded-lg overflow-hidden bg-slate-950 border border-slate-800">
+                                    <img id="imgFrame3" src="IMG_3010.jpg" alt="Ibtihal Solo Portrait" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80'">
+                                    <label class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer text-amber-300 text-xs font-semibold">
+                                        <i class="fa-solid fa-camera text-xl mb-1"></i>
+                                        <span>Replace Photo</span>
+                                        <input type="file" accept="image/*" class="hidden" onchange="uploadImage(event, 'imgFrame3')">
+                                    </label>
+                                </div>
+                                <div class="mt-3 text-center">
+                                    <p id="caption3" class="font-handwriting text-2xl text-amber-200">Ibtihal's Radiant Beauty</p>
+                                    <p id="date3" class="text-[10px] text-slate-400 font-mono uppercase tracking-wider mt-1">The Most Beautiful Girl</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PAGE 2: OUR TIMELINE & MILESTONES -->
+                    <div id="page-1" class="page-content space-y-6 hidden">
+                        <div class="text-center space-y-1">
+                            <h2 class="font-serif-title text-3xl md:text-4xl font-bold gold-text">Our Love Story with Ibtihal</h2>
+                            <p class="text-xs md:text-sm text-slate-300">Click on any chapter to send a heart into the sky</p>
+                        </div>
+
+                        <!-- Timeline Nodes -->
+                        <div class="relative border-l-2 border-amber-500/30 ml-4 md:ml-32 my-6 space-y-6 pl-6">
+                            
+                            <!-- Milestone 1 -->
+                            <div onclick="spawnHeart(event)" class="group cursor-pointer relative bg-slate-900/80 p-4 rounded-xl border border-amber-500/20 hover:border-amber-400 transition-all hover:bg-slate-900">
+                                <div class="absolute -left-[31px] top-4 w-4 h-4 rounded-full bg-amber-400 border-4 border-slate-950 group-hover:scale-125 transition-transform"></div>
+                                <span class="text-xs font-mono text-amber-400 font-bold uppercase tracking-wider">Chapter 1 • When I First Saw You</span>
+                                <h3 class="font-serif-title text-xl font-bold text-slate-100 mt-1">The Day Ibtihal Entered My Life</h3>
+                                <p class="text-slate-300 text-xs md:text-sm mt-1">From the moment I met you, Ibtihal, everything changed. Your smile instantly illuminated my entire world.</p>
+                            </div>
+
+                            <!-- Milestone 2 -->
+                            <div onclick="spawnHeart(event)" class="group cursor-pointer relative bg-slate-900/80 p-4 rounded-xl border border-amber-500/20 hover:border-amber-400 transition-all hover:bg-slate-900">
+                                <div class="absolute -left-[31px] top-4 w-4 h-4 rounded-full bg-amber-400 border-4 border-slate-950 group-hover:scale-125 transition-transform"></div>
+                                <span class="text-xs font-mono text-amber-400 font-bold uppercase tracking-wider">Chapter 2 • Unforgettable Dinner</span>
+                                <h3 class="font-serif-title text-xl font-bold text-slate-100 mt-1">Laughter & Whispers Over Dinner</h3>
+                                <p class="text-slate-300 text-xs md:text-sm mt-1">Leaning in, teasing each other, and laughing together. Making Ibtihal laugh is the absolute favorite part of my day.</p>
+                            </div>
+
+                            <!-- Milestone 3 -->
+                            <div onclick="spawnHeart(event)" class="group cursor-pointer relative bg-slate-900/80 p-4 rounded-xl border border-amber-500/20 hover:border-amber-400 transition-all hover:bg-slate-900">
+                                <div class="absolute -left-[31px] top-4 w-4 h-4 rounded-full bg-amber-400 border-4 border-slate-950 group-hover:scale-125 transition-transform"></div>
+                                <span class="text-xs font-mono text-amber-400 font-bold uppercase tracking-wider">Chapter 3 • Stargirl Interlude</span>
+                                <h3 class="font-serif-title text-xl font-bold text-slate-100 mt-1">My Real Life Stargirl ✨</h3>
+                                <p class="text-slate-300 text-xs md:text-sm mt-1">Just like The Weeknd sang in Stargirl: you belong in the stars, Ibtihal. You are my dream come true.</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- PAGE 3: CONSTELLATION MEMORY MAP FOR IBTIHAL -->
+                    <div id="page-2" class="page-content space-y-4 hidden">
+                        <div class="text-center space-y-1">
+                            <h2 class="font-serif-title text-3xl md:text-4xl font-bold gold-text">Ibtihal's Starlight Map</h2>
+                            <p class="text-xs md:text-sm text-slate-300">Click the glowing stars to unlock love notes meant just for Ibtihal!</p>
+                        </div>
+
+                        <!-- Interactive Constellation Canvas Box -->
+                        <div id="constellationBox" class="relative w-full h-72 md:h-80 bg-slate-950/90 rounded-xl border border-amber-500/30 overflow-hidden flex items-center justify-center p-4">
+                            
+                            <!-- Constellation SVG Overlay -->
+                            <svg class="absolute inset-0 w-full h-full opacity-30 pointer-events-none" viewBox="0 0 500 300">
+                                <path d="M 50 100 L 150 50 L 250 120 L 350 80 L 450 180" stroke="#f3d078" stroke-width="1.5" stroke-dasharray="4 4" fill="none" />
+                                <path d="M 100 220 L 250 120 L 400 240" stroke="#f3d078" stroke-width="1.5" stroke-dasharray="4 4" fill="none" />
+                            </svg>
+
+                            <!-- Clickable Interactive Stars -->
+                            <button onclick="revealNote(1)" class="star-glow absolute top-12 left-[10%] group flex flex-col items-center">
+                                <i class="fa-solid fa-star text-amber-300 text-2xl group-hover:scale-150 transition-transform"></i>
+                                <span class="text-[10px] text-amber-200/80 font-mono mt-1">Star #1</span>
+                            </button>
+
+                            <button onclick="revealNote(2)" class="star-glow absolute top-8 left-[30%] group flex flex-col items-center" style="animation-delay: 0.5s;">
+                                <i class="fa-solid fa-star text-amber-300 text-3xl group-hover:scale-150 transition-transform"></i>
+                                <span class="text-[10px] text-amber-200/80 font-mono mt-1">Star #2</span>
+                            </button>
+
+                            <button onclick="revealNote(3)" class="star-glow absolute top-28 left-[50%] group flex flex-col items-center" style="animation-delay: 1s;">
+                                <i class="fa-solid fa-heart text-pink-400 text-3xl group-hover:scale-150 transition-transform"></i>
+                                <span class="text-[10px] text-pink-300 font-mono mt-1">Ibtihal's Star</span>
+                            </button>
+
+                            <button onclick="revealNote(4)" class="star-glow absolute top-16 left-[70%] group flex flex-col items-center" style="animation-delay: 1.5s;">
+                                <i class="fa-solid fa-star text-amber-300 text-2xl group-hover:scale-150 transition-transform"></i>
+                                <span class="text-[10px] text-amber-200/80 font-mono mt-1">Star #3</span>
+                            </button>
+
+                            <button onclick="revealNote(5)" class="star-glow absolute top-36 left-[88%] group flex flex-col items-center" style="animation-delay: 2s;">
+                                <i class="fa-solid fa-star text-amber-300 text-2xl group-hover:scale-150 transition-transform"></i>
+                                <span class="text-[10px] text-amber-200/80 font-mono mt-1">Star #4</span>
+                            </button>
+
+                            <div id="starNoteDisplay" class="absolute inset-x-6 bottom-4 p-4 rounded-xl glass-card border border-amber-400/40 text-center transition-all duration-300 transform translate-y-2 opacity-0 pointer-events-none">
+                                <p id="starNoteText" class="font-serif-title text-lg md:text-xl text-amber-200 font-semibold italic">"Click any star above to read..."</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PAGE 4: SECRET LOVE LETTER & SCRATCH CARD -->
+                    <div id="page-3" class="page-content space-y-4 hidden">
+                        <div class="text-center space-y-1">
+                            <h2 class="font-serif-title text-3xl md:text-4xl font-bold gold-text">A Secret Note For Ibtihal</h2>
+                            <p class="text-xs md:text-sm text-slate-300">Scratch off the gold star coating below to reveal your love letter!</p>
+                        </div>
+
+                        <div class="relative max-w-lg mx-auto h-64 rounded-xl overflow-hidden border border-amber-500/40 shadow-2xl bg-slate-900 p-6 flex flex-col justify-center items-center text-center">
+                            
+                            <!-- Hidden Secret Message Behind Scratch Layer -->
+                            <div class="space-y-3 z-0">
+                                <i class="fa-solid fa-crown text-amber-400 text-3xl"></i>
+                                <p id="secretMessageText" class="font-serif-title text-lg md:text-xl text-amber-100 italic leading-relaxed">
+                                    "Ibtihal, my world truly revolves around you. No matter where we go or what we do, your smile makes every single second unforgettable. I love you to the stars and back! ❤️"
+                                </p>
+                                <p class="font-handwriting text-2xl text-amber-300">- Yours Always & Forever</p>
+                            </div>
+
+                            <!-- Scratch Canvas Coating Layer -->
+                            <canvas id="scratchCanvas" class="absolute inset-0 z-10 w-full h-full"></canvas>
+                        </div>
+                        <div class="text-center">
+                            <button onclick="resetScratchCanvas()" class="text-xs text-amber-400/80 hover:text-amber-300 underline font-mono">Re-cover scratch card</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Bottom Page Navigation Footer -->
+                <div class="flex justify-between items-center pt-4 border-t border-amber-500/15">
+                    <button id="prevBtn" onclick="prevPage()" class="px-5 py-2.5 rounded-xl border border-amber-500/30 bg-slate-900/80 hover:bg-amber-500/20 text-amber-300 text-xs md:text-sm font-semibold transition-all flex items-center space-x-2 disabled:opacity-30 disabled:cursor-not-allowed">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Previous Page</span>
+                    </button>
+
+                    <button onclick="triggerSparklesAroundBtn(event)" class="hidden md:inline-flex px-3.5 py-1.5 rounded-full border border-amber-500/20 bg-amber-500/5 hover:bg-amber-500/15 text-amber-300 text-xs items-center space-x-2">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <span>Make A Wish For Ibtihal</span>
+                    </button>
+
+                    <button id="nextBtn" onclick="nextPage()" class="px-5 py-2.5 rounded-xl border border-amber-500/40 bg-gradient-to-r from-amber-500/20 to-amber-600/30 hover:from-amber-500/30 hover:to-amber-600/40 text-amber-200 text-xs md:text-sm font-semibold transition-all flex items-center space-x-2 shadow-lg">
+                        <span>Next Page</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Modal for Customizing Captions and Photos -->
+    <div id="customizeModal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass-card max-w-lg w-full rounded-2xl p-6 border border-amber-500/40 space-y-4">
+            <div class="flex justify-between items-center border-b border-amber-500/20 pb-3">
+                <h3 class="font-serif-title text-xl font-bold gold-text">Customize Notes for Ibtihal</h3>
+                <button onclick="toggleCustomizeModal()" class="text-slate-400 hover:text-slate-100"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+
+            <div class="space-y-3 max-h-[60vh] overflow-y-auto pr-2">
+                <div>
+                    <label class="text-xs text-amber-300 font-semibold block mb-1">Photo 1 Caption & Tag</label>
+                    <input id="inputCap1" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-100 mb-2 focus:border-amber-400 outline-none" value="Where Our World Lights Up">
+                    <input id="inputDate1" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-100 focus:border-amber-400 outline-none" value="Our Favorite Playful Moment">
+                </div>
+
+                <div>
+                    <label class="text-xs text-amber-300 font-semibold block mb-1">Photo 2 Caption & Tag</label>
+                    <input id="inputCap2" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-100 mb-2 focus:border-amber-400 outline-none" value="My Favorite Person Ever">
+                    <input id="inputDate2" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-100 focus:border-amber-400 outline-none" value="Side By Side Always">
+                </div>
+
+                <div>
+                    <label class="text-xs text-amber-300 font-semibold block mb-1">Photo 3 Caption & Tag</label>
+                    <input id="inputCap3" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-100 mb-2 focus:border-amber-400 outline-none" value="Ibtihal's Radiant Beauty">
+                    <input id="inputDate3" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-100 focus:border-amber-400 outline-none" value="The Most Beautiful Girl">
+                </div>
+
+                <div>
+                    <label class="text-xs text-amber-300 font-semibold block mb-1">Secret Message for Ibtihal</label>
+                    <textarea id="inputSecret" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-100 focus:border-amber-400 outline-none">"Ibtihal, my world truly revolves around you. No matter where we go or what we do, your smile makes every single second unforgettable. I love you to the stars and back! ❤️"</textarea>
+                </div>
+            </div>
+
+            <div class="flex justify-end space-x-3 border-t border-amber-500/20 pt-3">
+                <button onclick="saveCustomizations()" class="w-full py-2 bg-gradient-to-r from-amber-500 to-amber-600 rounded-xl font-semibold text-slate-950 text-xs hover:brightness-110 transition-all">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="relative z-10 py-3 text-center text-[11px] text-slate-500 border-t border-slate-900">
+        Created with love for Ibtihal ✨
+    </footer>
+
+    <!-- JavaScript Engine -->
+    <script>
+        let currentPage = 0;
+        const totalPages = 4;
+        const chapters = ["Chapter I: Ibtihal & You", "Chapter II: Our Timeline", "Chapter III: Star Notes", "Chapter IV: Secret Message"];
+
+        // Audio Synth & The Weeknd Synthesizer Engine
+        let audioCtx = null;
+        let isAudioPlaying = false;
+        let weekndMelodyInterval = null;
+
+        // Custom Notes for Ibtihal
+        const starNotes = {
+            1: "Ibtihal, your laugh is genuinely my favorite sound in the whole universe! 😂❤️",
+            2: "Remember that goofy dinner where we couldn't stop teasing each other? Pure magic.",
+            3: "You are my best friend, my soulmate, and my star, Ibtihal. ✨",
+            4: "I fall in love with your smile more and more every single day.",
+            5: "Every galaxy is jealous of how brightly you shine, my gorgeous Ibtihal!"
+        };
+
+        window.onload = function() {
+            initIndicators();
+            initStarfield();
+            initCursorSparkles();
+            initScratchCanvas();
+            updatePageVisibility();
+        };
+
+        function initIndicators() {
+            const container = document.getElementById('pageIndicators');
+            container.innerHTML = '';
+            for (let i = 0; i < totalPages; i++) {
+                const dot = document.createElement('div');
+                dot.className = `w-2 h-2 rounded-full transition-all duration-300 ${i === currentPage ? 'bg-amber-400 w-5' : 'bg-slate-700'}`;
+                container.appendChild(dot);
+            }
+        }
+
+        function updatePageVisibility() {
+            for (let i = 0; i < totalPages; i++) {
+                const pageEl = document.getElementById(`page-${i}`);
+                if (i === currentPage) {
+                    pageEl.classList.remove('hidden');
+                } else {
+                    pageEl.classList.add('hidden');
+                }
+            }
+
+            document.getElementById('pageChapterTag').innerText = chapters[currentPage];
+            document.getElementById('pageNumberTag').innerText = `Page ${currentPage + 1} / ${totalPages}`;
+            
+            document.getElementById('prevBtn').disabled = (currentPage === 0);
+            document.getElementById('nextBtn').disabled = (currentPage === totalPages - 1);
+
+            initIndicators();
+
+            if (currentPage === 3) {
+                setTimeout(resetScratchCanvas, 100);
+            }
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages - 1) {
+                currentPage++;
+                playWeekndChime(523.25);
+                updatePageVisibility();
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 0) {
+                currentPage--;
+                playWeekndChime(440);
+                updatePageVisibility();
+            }
+        }
+
+        function uploadImage(event, targetImgId) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(targetImgId).src = e.target.result;
+                    playWeekndChime(659.25);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function revealNote(starId) {
+            const display = document.getElementById('starNoteDisplay');
+            const text = document.getElementById('starNoteText');
+            
+            playWeekndChime(587.33 + starId * 40);
+
+            text.innerText = starNotes[starId] || "You bring magic into my life every day, Ibtihal!";
+            display.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-2');
+            display.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                display.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2');
+                display.classList.remove('opacity-100', 'translate-y-0');
+            }, 4500);
+        }
+
+        function spawnHeart(e) {
+            playWeekndChime(783.99);
+            const heart = document.createElement('div');
+            heart.className = 'fixed text-pink-400 text-xl pointer-events-none z-50 animate-bounce';
+            heart.innerHTML = '<i class="fa-solid fa-heart"></i>';
+            heart.style.left = `${e.clientX - 10}px`;
+            heart.style.top = `${e.clientY - 10}px`;
+            document.body.appendChild(heart);
+
+            let opacity = 1;
+            let top = e.clientY - 10;
+            const anim = setInterval(() => {
+                top -= 2;
+                opacity -= 0.03;
+                heart.style.top = `${top}px`;
+                heart.style.opacity = opacity;
+                if (opacity <= 0) {
+                    clearInterval(anim);
+                    heart.remove();
+                }
+            }, 16);
+        }
+
+        function initScratchCanvas() {
+            const canvas = document.getElementById('scratchCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const parent = canvas.parentElement;
+
+            canvas.width = parent.clientWidth;
+            canvas.height = parent.clientHeight;
+
+            // Fill with sparkly gold coating
+            const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            grad.addColorStop(0, '#f3d078');
+            grad.addColorStop(0.5, '#c59b27');
+            grad.addColorStop(1, '#8a6616');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Add text prompt on scratch layer
+            ctx.fillStyle = '#0f172a';
+            ctx.font = 'bold 15px Cormorant Garamond, serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('✨ Scratch here for Ibtihal ✨', canvas.width / 2, canvas.height / 2);
+
+            let isDrawing = false;
+
+            function scratch(e) {
+                if (!isDrawing) return;
+                const rect = canvas.getBoundingClientRect();
+                const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+                const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.beginPath();
+                ctx.arc(x, y, 22, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            canvas.addEventListener('mousedown', (e) => { isDrawing = true; scratch(e); });
+            canvas.addEventListener('mousemove', scratch);
+            window.addEventListener('mouseup', () => { isDrawing = false; });
+
+            canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); });
+            canvas.addEventListener('touchmove', scratch);
+            window.addEventListener('touchend', () => { isDrawing = false; });
+        }
+
+        function resetScratchCanvas() {
+            initScratchCanvas();
+        }
+
+        function initStarfield() {
+            const canvas = document.getElementById('starfieldCanvas');
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            const stars = Array.from({ length: 140 }, () => ({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                radius: Math.random() * 1.5 + 0.5,
+                alpha: Math.random(),
+                speed: Math.random() * 0.01 + 0.005
+            }));
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                stars.forEach(star => {
+                    star.alpha += star.speed;
+                    if (star.alpha > 1 || star.alpha < 0) star.speed = -star.speed;
+
+                    ctx.beginPath();
+                    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(243, 208, 120, ${Math.abs(star.alpha)})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+        }
+
+        function initCursorSparkles() {
+            const canvas = document.getElementById('cursorCanvas');
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            let particles = [];
+
+            window.addEventListener('mousemove', (e) => {
+                for (let i = 0; i < 2; i++) {
+                    particles.push({
+                        x: e.clientX,
+                        y: e.clientY,
+                        vx: (Math.random() - 0.5) * 1.5,
+                        vy: (Math.random() - 0.5) * 1.5,
+                        size: Math.random() * 3 + 1,
+                        alpha: 1,
+                        color: Math.random() > 0.5 ? '#f3d078' : '#e2e8f0'
+                    });
+                }
+            });
+
+            function render() {
+                ctx.clearRect(0, 0, width, height);
+                particles.forEach((p, idx) => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.alpha -= 0.02;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color;
+                    ctx.globalAlpha = Math.max(0, p.alpha);
+                    ctx.fill();
+
+                    if (p.alpha <= 0) particles.splice(idx, 1);
+                });
+                ctx.globalAlpha = 1;
+                requestAnimationFrame(render);
+            }
+
+            render();
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+        }
+
+        function triggerSparklesAroundBtn(e) {
+            playWeekndChime(880);
+            for (let i = 0; i < 25; i++) {
+                spawnHeart(e);
+            }
+        }
+
+        function playWeekndChime(freq = 523.25) {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = 'sawtooth'; // Warm, modern synth wave tone inspired by synthwave
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.4);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + 1.4);
+            } catch(e) {}
+        }
+
+        function toggleAudio() {
+            const btnText = document.getElementById('musicText');
+            const musicIcon = document.getElementById('musicIcon');
+            const vinylDisc = document.getElementById('vinylDisc');
+            const visualizerBars = document.getElementById('visualizerBars');
+            const ytPlayer = document.getElementById('stargirlAudioPlayer');
+
+            if (!isAudioPlaying) {
+                isAudioPlaying = true;
+                btnText.innerText = "Pause Stargirl";
+                musicIcon.className = "fa-solid fa-pause text-amber-400";
+                vinylDisc.classList.remove('animate-vinyl-paused');
+                visualizerBars.classList.remove('hidden');
+                visualizerBars.classList.add('flex');
+                
+                // Play YouTube Audio Stream + Web Audio Ambient Synth Arpeggio
+                if (ytPlayer) {
+                    ytPlayer.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                }
+                startStargirlMelody();
+            } else {
+                isAudioPlaying = false;
+                btnText.innerText = "Play Stargirl";
+                musicIcon.className = "fa-solid fa-play";
+                vinylDisc.classList.add('animate-vinyl-paused');
+                visualizerBars.classList.add('hidden');
+                visualizerBars.classList.remove('flex');
+                
+                if (ytPlayer) {
+                    ytPlayer.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                }
+                stopWeekndMelody();
+            }
+        }
+
+        function startStargirlMelody() {
+            // Chords inspired by the lush atmospheric R&B synth progression in "Stargirl Interlude" (Abmaj7 - Fm7 - Bbm7 - Eb)
+            const stargirlChords = [
+                [207.65, 261.63, 311.13, 392.00], // Abmaj7
+                [174.61, 207.65, 261.63, 311.13], // Fm7
+                [233.08, 277.18, 349.23, 415.30], // Bbm7
+                [155.56, 196.00, 233.08, 311.13]  // Eb
+            ];
+            let chordIdx = 0;
+
+            weekndMelodyInterval = setInterval(() => {
+                if (!isAudioPlaying) return;
+                const chord = stargirlChords[chordIdx % stargirlChords.length];
+                chord.forEach(note => playWeekndChime(note));
+                chordIdx++;
+            }, 2000);
+        }
+
+        function stopWeekndMelody() {
+            if (weekndMelodyInterval) clearInterval(weekndMelodyInterval);
+        }
+
+        function toggleCustomizeModal() {
+            const modal = document.getElementById('customizeModal');
+            modal.classList.toggle('hidden');
+        }
+
+        function saveCustomizations() {
+            document.getElementById('caption1').innerText = document.getElementById('inputCap1').value;
+            document.getElementById('date1').innerText = document.getElementById('inputDate1').value;
+
+            document.getElementById('caption2').innerText = document.getElementById('inputCap2').value;
+            document.getElementById('date2').innerText = document.getElementById('inputDate2').value;
+
+            document.getElementById('caption3').innerText = document.getElementById('caption3').innerText = document.getElementById('inputCap3').value;
+            document.getElementById('date3').innerText = document.getElementById('inputDate3').value;
+
+            document.getElementById('secretMessageText').innerText = document.getElementById('inputSecret').value;
+
+            toggleCustomizeModal();
+            playWeekndChime(783.99);
+        }
+    </script>
+</body>
+</html>
